@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 8px;
+            max-width: 300px;
+            margin: auto;
+        }
+
+        .display {
+            grid-column: span 4;
+            text-align: right;
+            padding: 10px;
+            background-color: #f1f1f1;
+            font-size: 1.5em;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1.2em;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:active {
+            background-color: #ccc;
+        }
+    </style>
+    <title>Basic Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="setOperator('/')">/</button>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="setOperator('*')">*</button>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="setOperator('-')">-</button>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="setOperator('+')">+</button>
+    </div>
+    <script>
+        let displayValue = '0';
+        let operator = '';
+        let operand = '';
+        let array = [];
+
+        function updateDisplay() {
+            document.getElementById('display').textContent = displayValue;
+        }
+
+        function appendToDisplay(value) {
+            if (displayValue === '0') {
+                displayValue = value;
+            }
+            else{
+                displayValue =displayValue+ value;
+            }
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            displayValue = '0';
+            operator = '';
+            operand = '';
+            updateDisplay();
+        }
+
+        function setOperator(op) {
+            operator = op;
+            operand = displayValue;
+            displayValue = operand+operator;
+            updateDisplay();
+        }
+
+        function calculate() {
+            operator = '' 
+            array=[]
+            if(displayValue.includes('*')){
+                operator = '*'
+                array= displayValue.split("*")
+                console.log(operator,array)
+            }
+            else if(displayValue.includes('+'))
+            {
+                operator = '+'
+                array= displayValue.split("+")
+            } 
+            else if(displayValue.includes('-')){
+                operator = '-'
+                array= displayValue.split("-")
+            }
+            else if(displayValue.includes('/')){
+                operator = '/'
+                array= displayValue.split("/")
+            }
+
+            let result;
+            switch (operator) {
+                case '+':
+                    result = Number(array[0]) + Number(array[1]);
+                    break;
+                case '-':
+                    result = Number(array[0]) - Number(array[1]);
+                    break;
+                case '*':
+                    result = Number(array[0]) * Number(array[1]);
+                    break;
+                case '/':
+                    result = Number(array[0]) / Number(array[1]);
+                    break;
+            }
+            displayValue = `${result}`;
+            updateDisplay();    
+            operator = '';
+            operand = '';
+            
+        }
+    </script>
+</body>
+</html>
